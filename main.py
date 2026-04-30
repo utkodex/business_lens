@@ -97,7 +97,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Configuration ---
-API_BASE_URL = "http://localhost:8001"
+# Use 127.0.0.1 instead of localhost to prevent IPv6 resolution errors in Docker
+API_BASE_URL = "http://127.0.0.1:8001"
 
 # ── Sidebar ─────────────────────────────────────────────────────────────────
 with st.sidebar:
