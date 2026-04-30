@@ -1,14 +1,18 @@
 #!/bin/sh
-# Start FastAPI backend in background on a fixed internal port (8001).
-# We MUST override PORT because Uvicorn automatically binds to $PORT if it exists.
-PORT=8001 uvicorn app:app --host 0.0.0.0 --port 8001 &
 
-# Wait a moment for FastAPI to be ready
+# Save Railway's public port before we override anything
+PUBLIC_PORT="${PORT:-8080}"
+
+# FastAPI always runs internally on 8001
+FASTAPI_PORT=8001
+PORT=$FASTAPI_PORT uvicorn app:app --host 0.0.0.0 --port $FASTAPI_PORT &
+
+# Wait for FastAPI to be ready
 sleep 2
 
-# Start Streamlit frontend — Railway routes external traffic to $PORT
+# Streamlit binds to Railway's public $PORT
 exec streamlit run main.py \
-    --server.port "${PORT:-8501}" \
+    --server.port "$PUBLIC_PORT" \
     --server.address 0.0.0.0 \
     --server.headless true \
     --browser.gatherUsageStats false
