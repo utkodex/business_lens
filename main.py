@@ -97,8 +97,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Configuration ---
-# Use 127.0.0.1 instead of localhost to prevent IPv6 resolution errors in Docker
-API_BASE_URL = "http://127.0.0.1:8001"
+# In Docker, start.sh sets this to 8001. Locally, uvicorn defaults to 8000.
+import os
+API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
 
 # ── Sidebar ─────────────────────────────────────────────────────────────────
 with st.sidebar:
