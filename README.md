@@ -9,6 +9,10 @@
   <img src="https://github.com/utkodex/business_lens/blob/main/media/3.jpeg?raw=true" width="48%" />
   <img src="https://github.com/utkodex/business_lens/blob/main/media/4.jpeg?raw=true" width="48%" />
 </p>
+<p align="center">
+  <img src="https://github.com/utkodex/business_lens/blob/main/media/5.jpeg?raw=true" width="48%" />
+  <img src="https://github.com/utkodex/business_lens/blob/main/media/6.jpeg?raw=true" width="48%" />
+</p>
 
 ## Overview
 Business Lens AI is an enterprise-grade AI analytics assistant built for the Category Heads of the Beverages and Snacks divisions. This platform replaces scattered, poorly governed legacy data extracts by providing a unified, conversational interface capable of answering complex queries about market trends, YoY growth, and competitor baselines.
@@ -51,6 +55,7 @@ The application uses a **Multi-Agent Architecture** with a hybrid routing approa
 ## 🚀 Prototype Artifacts (Deliverable 3)
 - **Hosted Demo URL:** [https://businesslens-production.up.railway.app/](https://businesslens-production.up.railway.app/)
 - **Source Code / Repo:** *(Add your GitHub repo link here)*
+- **Query Execution Logs Report:** A comprehensive log of 20 test queries run through the Multi-Agent pipeline (including Intent Classification, Generated SQL, and final execution DataFrames) can be found in the repository here: [`report/query_logs_report.md`](report/query_logs_report.md).
 
 ## 🛠️ Build Log & AI Usage (Deliverable 1)
 This project utilized iterative building and AI-assisted workflows to accelerate development, debugging, and styling.
