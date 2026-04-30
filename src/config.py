@@ -23,13 +23,14 @@ DUCKDB_FILE = DB_DIR / "business_lens.duckdb"
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq")
 
 # Groq Cloud – langchain-groq / ChatGroq
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+# .strip('\'"') safely removes accidental quotes from the Railway dashboard
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip('\'"')
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile").strip('\'"')
 
 # Ollama Cloud – langchain-ollama / ChatOllama (pointing to ollama.com)
-OLLAMA_API_KEY  = os.getenv("OLLAMA_API_KEY", "")
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "https://ollama.com")
-OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "deepseek-v3.1:671b-cloud")
+OLLAMA_API_KEY  = os.getenv("OLLAMA_API_KEY", "").strip('\'"')
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "https://ollama.com").strip('\'"')
+OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "deepseek-v3.1:671b-cloud").strip('\'"')
 
 
 if __name__ == "__main__":

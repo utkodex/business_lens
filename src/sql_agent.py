@@ -70,8 +70,9 @@ SQL Query:
         """Instantiate the correct LangChain LLM based on the chosen provider."""
         if self.llm_provider == "groq":
             print(f"[SQLAgent] Using ChatGroq  → model: {GROQ_MODEL}")
+            key = GROQ_API_KEY if GROQ_API_KEY else "invalid_key_prevent_crash"
             return ChatGroq(
-                api_key=GROQ_API_KEY,
+                api_key=key,
                 model=GROQ_MODEL,
                 temperature=0,
             )
