@@ -4,9 +4,15 @@ import duckdb
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
 
-from config import DUCKDB_FILE
+from config import (
+    DUCKDB_FILE,
+    LLM_PROVIDER,
+    GROQ_API_KEY, GROQ_MODEL,
+    OLLAMA_API_KEY, OLLAMA_BASE_URL, OLLAMA_MODEL,
+)
 
 SCHEMA = """
 Tables and their columns:
@@ -23,28 +29,24 @@ Relationships:
 - fact_internal_sales joins to dim_product on product_id.
 """
 
+
 class SQLAgent:
     """
     SQL Agent (Checkpoint 6)
     Acts as a Text-to-SQL engine for complex analytical queries.
     Uses the underlying LLM to generate DuckDB-compatible SQL based on the star schema.
+
+    Supports two backends:
+      - "groq"   → ChatGroq  (langchain-groq,   cloud, llama-3.3-70b-versatile)
+      - "ollama" → ChatOllama (langchain-ollama, cloud, ollama.com endpoint)
     """
-    def __init__(self):
+
+    def __init__(self, llm_provider: str = None):
         load_dotenv()
-        
-        api_key = os.getenv("OLLAMA_API_KEY", "")
-        base_url = "https://ollama.com"
-        model = "deepseek-v3.1:671b-cloud"
-        
-        self.llm = ChatOllama(
-            model=model,
-            base_url=base_url,
-            headers={"Authorization": f"Bearer {api_key}"} if api_key else {},
-            temperature=0,
-        )
-        
+        self.llm_provider = (llm_provider or LLM_PROVIDER).lower()
+        self.llm = self._build_llm()
         self.db_path = str(DUCKDB_FILE)
-        
+
         self.prompt = PromptTemplate.from_template("""
 You are an expert Data Analyst and DuckDB SQL developer.
 Generate a valid, highly optimized DuckDB SQL query to answer the user's question based on the provided schema.
@@ -63,31 +65,42 @@ SQL Query:
 """)
         self.chain = self.prompt | self.llm | StrOutputParser()
 
+    # ------------------------------------------------------------------
+    def _build_llm(self):
+        """Instantiate the correct LangChain LLM based on the chosen provider."""
+        if self.llm_provider == "groq":
+            print(f"[SQLAgent] Using ChatGroq  → model: {GROQ_MODEL}")
+            return ChatGroq(
+                api_key=GROQ_API_KEY,
+                model=GROQ_MODEL,
+                temperature=0,
+            )
+        else:  # "ollama"
+            print(f"[SQLAgent] Using ChatOllama → {OLLAMA_BASE_URL} / model: {OLLAMA_MODEL}")
+            return ChatOllama(
+                model=OLLAMA_MODEL,
+                base_url=OLLAMA_BASE_URL,
+                headers={"Authorization": f"Bearer {OLLAMA_API_KEY}"} if OLLAMA_API_KEY else {},
+                temperature=0,
+            )
+
+    # ------------------------------------------------------------------
     def generate_sql(self, question: str) -> str:
-        """
-        Takes a natural language question and generates a SQL query string.
-        """
+        """Takes a natural language question and generates a SQL query string."""
         try:
             response = self.chain.invoke({"schema": SCHEMA, "question": question})
-            
-            # Use regex to perfectly extract the SQL block if it exists
             match = re.search(r"```(?:sql)?\n(.*?)\n```", response, re.DOTALL | re.IGNORECASE)
             if match:
                 return match.group(1).strip()
-                
-            # If no markdown block is found, strip whitespace and return
             return response.strip()
         except Exception as e:
             print(f"[Error] SQL Generation failed: {e}")
             return ""
 
     def execute_sql(self, query: str):
-        """
-        Executes a generated SQL query against the DuckDB instance.
-        """
+        """Executes a generated SQL query against the DuckDB instance."""
         if not query:
             return None
-            
         with duckdb.connect(self.db_path, read_only=True) as conn:
             try:
                 return conn.execute(query).df()
@@ -95,19 +108,20 @@ SQL Query:
                 print(f"[DuckDB Execution Error]: {e}")
                 return None
 
+
+# ── Quick smoke-test ────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print("--- Checkpoint 6: Agentic SQL Layer ---")
     agent = SQLAgent()
-    
+
     question = "Compare FizzPop vs ColaMax total revenue for the year 2024. Show the brand and total revenue, ordered by revenue descending."
     print(f"Question: '{question}'\n")
-    
+
     print("Generating SQL via LLM...")
     sql_query = agent.generate_sql(question)
-    
+
     if sql_query:
         print(f"\n[Generated SQL]\n{sql_query}\n")
-        
         print("Executing SQL against DuckDB...")
         results = agent.execute_sql(sql_query)
         if results is not None:
@@ -117,5 +131,5 @@ if __name__ == "__main__":
             print("Query execution failed.")
     else:
         print("Failed to generate SQL.")
-        
+
     print("\n[INFO] Checkpoint 6 Execution Complete.")

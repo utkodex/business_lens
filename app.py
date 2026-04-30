@@ -6,6 +6,7 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import Literal
 
 # Add src to python path so imports work seamlessly
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
@@ -30,20 +31,27 @@ app.add_middleware(
 # --- Request / Response Models ---
 class QueryRequest(BaseModel):
     query: str
+    llm_provider: Literal["groq", "ollama"] = "groq"   # UI toggle
 
 class QueryResponse(BaseModel):
     type: str          # "dataframe" or "text"
     data: object       # list[dict] for dataframe, str for text
 
-# --- Singleton Orchestrator ---
-orchestrator = None
+# --- Lazy Orchestrator cache (one instance per provider) ---
+_orchestrators: dict[str, Orchestrator] = {}
+
+def get_orchestrator(provider: str) -> Orchestrator:
+    """Return (and lazily create) the orchestrator for the given provider."""
+    if provider not in _orchestrators:
+        print(f"[API] Creating Orchestrator for provider='{provider}'...")
+        _orchestrators[provider] = Orchestrator(provider)
+        print(f"[API] Orchestrator ready for provider='{provider}'.")
+    return _orchestrators[provider]
 
 @app.on_event("startup")
 def startup_event():
-    """Initialize the orchestrator (LLM + DB connections) once at server start."""
-    global orchestrator
-    print("[API] Initializing Backend Services...")
-    orchestrator = Orchestrator()
+    """Pre-warm the default Groq orchestrator at server start."""
+    get_orchestrator("groq")
     print("[API] Backend ready.")
 
 # --- Endpoints ---
@@ -58,13 +66,12 @@ def process_query(request: QueryRequest):
     """
     Process a natural-language analytics query.
     Routes through the Orchestrator pipeline (LLM Router → KPI Engine / SQL Agent).
+    The llm_provider field selects the backend: 'groq' or 'ollama'.
     """
-    if not orchestrator:
-        raise HTTPException(status_code=503, detail="Backend services are still initializing.")
-    
     try:
-        result = orchestrator.process_query(request.query)
-        
+        orch = get_orchestrator(request.llm_provider)
+        result = orch.process_query(request.query)
+
         if isinstance(result, pd.DataFrame):
             return QueryResponse(
                 type="dataframe",

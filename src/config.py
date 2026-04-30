@@ -18,24 +18,31 @@ DATA_DICTIONARY_FILE = DATA_DIR / "Data Dictionary.xlsx"
 DB_DIR = BASE_DIR / "db"
 DUCKDB_FILE = DB_DIR / "business_lens.duckdb"
 
-# LLM Configuration (DeepSeek Cloud)
-# Loaded from .env file
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-DEEPSEEK_API_BASE = os.getenv("DEEPSEEK_API_BASE", "https://api.deepseek.com/v1") 
-LLM_MODEL = os.getenv("LLM_MODEL", "llmdeepseek-v3.1")
+# ── LLM Provider ────────────────────────────────────────────────────────────
+# Switch between "groq" (cloud, ChatGroq) and "ollama" (cloud, ChatOllama)
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq")
+
+# Groq Cloud – langchain-groq / ChatGroq
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+
+# Ollama Cloud – langchain-ollama / ChatOllama (pointing to ollama.com)
+OLLAMA_API_KEY  = os.getenv("OLLAMA_API_KEY", "")
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "https://ollama.com")
+OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "deepseek-v3.1:671b-cloud")
+
 
 if __name__ == "__main__":
     print(f"--- Configuration Checkpoint ---")
     print(f"BASE_DIR: {BASE_DIR}")
     print(f"DATA_DIR: {DATA_DIR}")
-    
-    # Check data files
+
     files_to_check = [
         ("Internal Sales CSV", INTERNAL_SALES_FILE),
         ("Competitor Market CSV", COMPETITOR_MARKET_FILE),
-        ("Data Dictionary", DATA_DICTIONARY_FILE)
+        ("Data Dictionary", DATA_DICTIONARY_FILE),
     ]
-    
+
     print("\nVerifying Data Files:")
     all_files_exist = True
     for name, path in files_to_check:
@@ -44,11 +51,17 @@ if __name__ == "__main__":
         print(f"  [{status}] {name}: {path}")
         if not exists:
             all_files_exist = False
-            
+
     print(f"\nDatabase path: {DUCKDB_FILE}")
-    print(f"LLM Model: {LLM_MODEL}")
-    print(f"LLM API Key configured: {'Yes' if DEEPSEEK_API_KEY else 'No'}")
-    
+    print(f"LLM Provider : {LLM_PROVIDER}")
+    if LLM_PROVIDER == "groq":
+        print(f"Groq Model   : {GROQ_MODEL}")
+        print(f"Groq API Key : {'Set' if GROQ_API_KEY else 'MISSING'}")
+    else:
+        print(f"Ollama Model   : {OLLAMA_MODEL}")
+        print(f"Ollama Base URL: {OLLAMA_BASE_URL}")
+        print(f"Ollama API Key : {'Set' if OLLAMA_API_KEY else 'MISSING'}")
+
     if all_files_exist:
         print("\n[SUCCESS] Checkpoint 1 passed: All configuration and data paths are valid.")
     else:
