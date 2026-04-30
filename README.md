@@ -1,0 +1,55 @@
+# Business Lens AI - Executive Category Intelligence
+
+## Overview
+Business Lens AI is an enterprise-grade AI analytics assistant built for the Category Heads of the Beverages and Snacks divisions. This platform replaces scattered, poorly governed legacy data extracts by providing a unified, conversational interface capable of answering complex queries about market trends, YoY growth, and competitor baselines.
+
+## 📊 The Data Context
+The raw materials for this project consisted of two legacy datasets:
+1. `weekly_internal_sales_messy.csv`
+2. `weekly_competitor_market_messy.csv`
+3. `Data Dictionary.xlsx`
+
+Because there was no centralized Master Data Management (MDM) table or clean product hierarchy provided, a robust data cleaning and modeling pipeline was built. The pipeline ingests the raw data, infers product hierarchies, resolves mismatches in granularities across internal and competitor data, and loads the cleaned data into an embedded analytical database.
+
+## 🏗️ Architecture & Design Document (Deliverable 2)
+
+### Data Modeling & Assumptions
+- **DuckDB Star Schema:** The underlying data architecture leverages DuckDB for extremely fast in-memory and embedded analytical processing.
+- **Hierarchy Inference:** Entities and hierarchies were resolved by scanning and normalizing brand, category, and sub-category names to create a unified dimension table.
+- **Granularity Handling:** Since competitor data and internal data arrived in different structures, they were mapped against a common time dimension (Weeks/Quarters/Years) to allow for comparative aggregations.
+
+### Metric Logic
+- Core KPIs tracked include:
+  - **Total Revenue / Sales Volume:** Aggregated weekly and dynamically rollable to monthly/quarterly.
+  - **YoY Growth:** Calculated dynamically via window functions or relative time filtering in SQL.
+  - **Market Share:** Derived by dividing internal brand sales by total competitor + internal sales within a category.
+
+### System Architecture
+The application uses a **Multi-Agent Architecture** with a hybrid routing approach:
+1. **User Request:** The user submits a query through the Streamlit interface.
+2. **Deterministic LLM Router:** The query hits the `LLMRouter` which classifies the intent (e.g., `DATA_QUERY`, `CASUAL`).
+3. **Agentic SQL Execution:** If it's a data query, the `SQLAgent` (powered by LangChain) dynamically interacts with the DuckDB schema. It reads table structures, generates compliant SQL, validates the query against DuckDB, executes it, and synthesizes the final conversational response.
+4. **Prevention of Hallucinations:** The LLM is forced to output valid SQL against the physical schema. The final answer strictly utilizes the results of the executed SQL, making it deterministic and 100% traceable.
+
+### Tech Stack Rationale
+- **FastAPI:** Used as the decoupleable backend API to manage the agents and provide a RESTful interface. Highly scalable.
+- **Streamlit:** Serves as the interactive, chat-based frontend, delivering a premium ChatGPT-like UI experience.
+- **DuckDB:** Replaces slow Pandas workflows with blazing-fast analytical SQL execution locally.
+- **LangChain / Groq / Ollama:** Used for multi-agent orchestration. The app supports dynamic provider switching between Groq (Cloud/Fast via LLaMA 3.3) and Ollama (Local/Cloud via DeepSeek-v3).
+- **Railway & Docker:** Used for containerization and one-click production deployment.
+
+## 🚀 Prototype Artifacts (Deliverable 3)
+- **Hosted Demo URL:** [https://businesslens-production.up.railway.app/](https://businesslens-production.up.railway.app/)
+- **Source Code / Repo:** *(Add your GitHub repo link here)*
+
+## 🛠️ Build Log & AI Usage (Deliverable 1)
+This project utilized iterative building and AI-assisted workflows to accelerate development, debugging, and styling.
+- **AI Chat Link(s):** *(Add the chat link you took help from here)*
+
+## 📈 Executive Readout & Roadmap (Deliverable 4)
+- **Accuracy & Traceability:** By generating SQL instead of text, users can trace the exact query the AI ran against the database. SQL syntax is validated before execution.
+- **Performance:** Using Groq provides near-instantaneous token generation (Llama 3.3). Future bottlenecks could include extremely large database scans in DuckDB, which would require pre-aggregated materialized views.
+- **Production Roadmap:** 
+  - Implementation of Row-Level Security (RLS) to restrict category access based on the user's role.
+  - Migration from an embedded DuckDB file to a managed Cloud Data Warehouse (e.g., Snowflake, BigQuery) for scale.
+  - Addition of a "Download Data" feature for the generated tables.
