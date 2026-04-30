@@ -1,5 +1,15 @@
 # Business Lens AI - Executive Category Intelligence
 
+## 📸 Application Previews
+<p align="center">
+  <img src="https://github.com/utkodex/business_lens/blob/main/media/1.jpeg?raw=true" width="48%" />
+  <img src="https://github.com/utkodex/business_lens/blob/main/media/2.jpeg?raw=true" width="48%" />
+</p>
+<p align="center">
+  <img src="https://github.com/utkodex/business_lens/blob/main/media/3.jpeg?raw=true" width="48%" />
+  <img src="https://github.com/utkodex/business_lens/blob/main/media/4.jpeg?raw=true" width="48%" />
+</p>
+
 ## Overview
 Business Lens AI is an enterprise-grade AI analytics assistant built for the Category Heads of the Beverages and Snacks divisions. This platform replaces scattered, poorly governed legacy data extracts by providing a unified, conversational interface capable of answering complex queries about market trends, YoY growth, and competitor baselines.
 
