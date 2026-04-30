@@ -61,6 +61,11 @@ def health_check():
     """Health check endpoint."""
     return {"status": "ok", "service": "Business Lens AI API"}
 
+@app.get("/healthz")
+def healthz():
+    """Secondary health check endpoint."""
+    return {"status": "ok"}
+
 @app.post("/query", response_model=QueryResponse)
 def process_query(request: QueryRequest):
     """
