@@ -97,7 +97,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Configuration ---
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "http://localhost:8001"
 
 # ── Sidebar ─────────────────────────────────────────────────────────────────
 with st.sidebar:

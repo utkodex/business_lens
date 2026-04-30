@@ -17,8 +17,7 @@ COPY . .
 RUN dos2unix start.sh && chmod +x start.sh
 
 # Railway injects $PORT at runtime (Streamlit binds to it).
-# FastAPI always listens on 8000 internally.
-EXPOSE 8000
+# FastAPI always listens on 8001 internally.
 
 # Launch both services via the start script
 CMD ["./start.sh"]
