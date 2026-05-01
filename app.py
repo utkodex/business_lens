@@ -56,15 +56,6 @@ def startup_event():
 
 # --- Endpoints ---
 
-@app.get("/")
-def root():
-    """Root endpoint to verify API is live."""
-    return {
-        "message": "Business Lens AI API is LIVE",
-        "endpoints": ["/health", "/query (POST)"],
-        "note": "This is the backend API. Use the Streamlit frontend to interact with the assistant."
-    }
-
 @app.get("/health")
 def health_check():
     """Health check endpoint."""
