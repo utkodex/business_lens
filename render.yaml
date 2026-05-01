@@ -5,10 +5,11 @@
 services:
   - type: web
     name: business-lens-ai
-    runtime: docker                      # Uses the Dockerfile in repo root
-    region: oregon                       # Closest free-tier region
-    plan: free                           # Free tier (upgrade as needed)
-    healthCheckPath: /health             # FastAPI health endpoint (internal)
+    runtime: python                      # Native Python runtime (uses Procfile)
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: sh start.sh            # Matches Procfile
     envVars:
       # --- LLM Provider ---
       - key: LLM_PROVIDER
@@ -20,7 +21,7 @@ services:
         value: llama-3.3-70b-versatile
       # --- Ollama Cloud ---
       - key: OLLAMA_API_KEY
-        sync: false                      # Must be set manually in Render dashboard
+        sync: false
       - key: OLLAMA_BASE_URL
         value: https://ollama.com
       - key: OLLAMA_MODEL
@@ -31,6 +32,6 @@ services:
       - key: LANGSMITH_ENDPOINT
         value: https://api.smith.langchain.com
       - key: LANGSMITH_API_KEY
-        sync: false                      # Must be set manually in Render dashboard
+        sync: false
       - key: LANGSMITH_PROJECT
         value: BusinessLens2
