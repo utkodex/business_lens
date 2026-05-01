@@ -23,7 +23,7 @@ DUCKDB_FILE = DB_DIR / "business_lens.duckdb"
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq")
 
 # Groq Cloud – langchain-groq / ChatGroq
-# .strip('\'"') safely removes accidental quotes from the Railway dashboard
+# .strip('\'"') safely removes accidental quotes from environment variables
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip('\'"')
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile").strip('\'"')
 

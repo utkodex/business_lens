@@ -22,7 +22,7 @@ Business Lens AI is an enterprise-grade AI analytics assistant built for the Cat
 ### Mandatory Deliverables
 - [x] **Build Log with AI session links** ([ChatGPT Conversation Link](https://chatgpt.com/share/69f344ab-33fc-83e8-b32d-d9ccfd922591))
 - [x] **Architecture & Design Document** ([ARCHITECTURE.md](ARCHITECTURE.md))
-- [x] **Hosted Working Prototype** ([Live Demo Link](https://businesslens-production.up.railway.app/))
+- [x] **Hosted Working Prototype** (Link removed)
 - [x] **GitHub/Workflow Assets** (Clean code, README, and logs)
 - [x] **Executive Presentation Deck** ([Report Directory](report/))
 
@@ -32,7 +32,7 @@ Business Lens AI is an enterprise-grade AI analytics assistant built for the Cat
 - [x] **Data modeling from messy datasets** ([DuckDB Star Schema](src/sql_agent.py#L17-L30))
 - [x] **KPI generation** ([src/kpi_engine.py](src/kpi_engine.py))
 - [x] **Query answering capability** ([src/orchestrator.py](src/orchestrator.py))
-- [x] **Deployed accessible application** ([railway.toml](railway.toml) / [Dockerfile](Dockerfile))
+- [x] **Deployed accessible application** ([Dockerfile](Dockerfile))
 
 ---
 
@@ -69,10 +69,10 @@ The application uses a **Multi-Agent Architecture** with a hybrid routing approa
 - **Streamlit:** Serves as the interactive, chat-based frontend, delivering a premium ChatGPT-like UI experience.
 - **DuckDB:** Replaces slow Pandas workflows with blazing-fast analytical SQL execution locally.
 - **LangChain / Groq / Ollama:** Used for multi-agent orchestration. The app supports dynamic provider switching between Groq (Cloud/Fast via LLaMA 3.3) and Ollama (Local/Cloud via DeepSeek-v3).
-- **Railway & Docker:** Used for containerization and one-click production deployment.
+- **Docker:** Used for containerization and production deployment.
 
 ## 🚀 Prototype Artifacts (Deliverable 3)
-- **Hosted Demo URL:** [https://businesslens-production.up.railway.app/](https://businesslens-production.up.railway.app/)
+- **Hosted Demo URL:** (Link removed)
 - **Source Code / Repo:** *(Add your GitHub repo link here)*
 - **Query Execution Logs Report:** A comprehensive log of 20 test queries run through the Multi-Agent pipeline (including Intent Classification, Generated SQL, and final execution DataFrames) can be found in the repository here: [`report/query_logs_report.md`](report/query_logs_report.md).
 

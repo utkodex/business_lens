@@ -1,0 +1,36 @@
+# ── Render Blueprint (Infrastructure as Code) ────────────────────────────────
+# Deploy with: https://render.com/deploy → point to this repo
+# Docs: https://docs.render.com/blueprint-spec
+
+services:
+  - type: web
+    name: business-lens-ai
+    runtime: docker                      # Uses the Dockerfile in repo root
+    region: oregon                       # Closest free-tier region
+    plan: free                           # Free tier (upgrade as needed)
+    healthCheckPath: /health             # FastAPI health endpoint (internal)
+    envVars:
+      # --- LLM Provider ---
+      - key: LLM_PROVIDER
+        value: groq
+      # --- Groq Cloud ---
+      - key: GROQ_API_KEY
+        sync: false                      # Must be set manually in Render dashboard
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      # --- Ollama Cloud ---
+      - key: OLLAMA_API_KEY
+        sync: false                      # Must be set manually in Render dashboard
+      - key: OLLAMA_BASE_URL
+        value: https://ollama.com
+      - key: OLLAMA_MODEL
+        value: "deepseek-v3.1:671b-cloud"
+      # --- LangSmith (optional) ---
+      - key: LANGSMITH_TRACING
+        value: "true"
+      - key: LANGSMITH_ENDPOINT
+        value: https://api.smith.langchain.com
+      - key: LANGSMITH_API_KEY
+        sync: false                      # Must be set manually in Render dashboard
+      - key: LANGSMITH_PROJECT
+        value: BusinessLens2
