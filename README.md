@@ -24,15 +24,15 @@ Business Lens AI is an enterprise-grade AI analytics assistant built for the Cat
 - [x] **Architecture & Design Document** ([ARCHITECTURE.md](ARCHITECTURE.md))
 - [x] **Hosted Working Prototype** ([Live Demo Link](https://businesslens-production.up.railway.app/))
 - [x] **GitHub/Workflow Assets** (Clean code, README, and logs)
-- [x] **Executive Presentation Deck** (Available in `report/` directory)
+- [x] **Executive Presentation Deck** ([Report Directory](report/))
 
 ### Prototype Expectations
-- [x] **Multi-agent architecture** (Orchestrated via LangChain)
-- [x] **Conversational AI assistant** (Streamlit chat interface)
-- [x] **Data modeling from messy datasets** (DuckDB star schema)
-- [x] **KPI generation** (Revenue, YoY, Market Share)
-- [x] **Query answering capability** (Deterministic SQL execution)
-- [x] **Deployed accessible application** (Containerized on Railway)
+- [x] **Multi-agent architecture** ([ARCHITECTURE.md](ARCHITECTURE.md))
+- [x] **Conversational AI assistant** ([Screenshot 1](https://raw.githubusercontent.com/utkodex/business_lens/refs/heads/main/media/1.jpeg), [Screenshot 2](https://raw.githubusercontent.com/utkodex/business_lens/refs/heads/main/media/2.jpeg))
+- [x] **Data modeling from messy datasets** ([DuckDB Star Schema](src/sql_agent.py#L17-L30))
+- [x] **KPI generation** ([src/kpi_engine.py](src/kpi_engine.py))
+- [x] **Query answering capability** ([src/orchestrator.py](src/orchestrator.py))
+- [x] **Deployed accessible application** ([railway.toml](railway.toml) / [Dockerfile](Dockerfile))
 
 ---
 
