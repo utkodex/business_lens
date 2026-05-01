@@ -22,7 +22,7 @@ Business Lens AI is an enterprise-grade AI analytics assistant built for the Cat
 ### Mandatory Deliverables
 - [x] **Build Log with AI session links** ([ChatGPT Conversation Link](https://chatgpt.com/share/69f344ab-33fc-83e8-b32d-d9ccfd922591))
 - [x] **Architecture & Design Document** ([ARCHITECTURE.md](ARCHITECTURE.md))
-- [x] **Hosted Working Prototype** (Link removed)
+- [x] **Hosted Working Prototype** ([🔗 Live Demo](https://business-lens-demo.onrender.com/))
 - [x] **GitHub/Workflow Assets** (Clean code, README, and logs)
 - [x] **Executive Presentation Deck** ([Report Directory](report/))
 
@@ -32,7 +32,7 @@ Business Lens AI is an enterprise-grade AI analytics assistant built for the Cat
 - [x] **Data modeling from messy datasets** ([DuckDB Star Schema](src/sql_agent.py#L17-L30))
 - [x] **KPI generation** ([src/kpi_engine.py](src/kpi_engine.py))
 - [x] **Query answering capability** ([src/orchestrator.py](src/orchestrator.py))
-- [x] **Deployed accessible application** ([Dockerfile](Dockerfile))
+- [x] **Deployed accessible application** ([🔗 Live on Render](https://business-lens-demo.onrender.com/) | [Dockerfile](Dockerfile))
 
 ---
 
@@ -72,8 +72,8 @@ The application uses a **Multi-Agent Architecture** with a hybrid routing approa
 - **Docker:** Used for containerization and production deployment.
 
 ## 🚀 Prototype Artifacts (Deliverable 3)
-- **Hosted Demo URL:** (Link removed)
-- **Source Code / Repo:** *(Add your GitHub repo link here)*
+- **Hosted Demo URL:** [https://business-lens-demo.onrender.com/](https://business-lens-demo.onrender.com/)
+- **Source Code / Repo:** [https://github.com/utkodex/business_lens](https://github.com/utkodex/business_lens)
 - **Query Execution Logs Report:** A comprehensive log of 20 test queries run through the Multi-Agent pipeline (including Intent Classification, Generated SQL, and final execution DataFrames) can be found in the repository here: [`report/query_logs_report.md`](report/query_logs_report.md).
 
 ## 🛠️ Build Log & AI Usage (Deliverable 1)
