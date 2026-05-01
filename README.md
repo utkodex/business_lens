@@ -17,6 +17,25 @@
 ## Overview
 Business Lens AI is an enterprise-grade AI analytics assistant built for the Category Heads of the Beverages and Snacks divisions. This platform replaces scattered, poorly governed legacy data extracts by providing a unified, conversational interface capable of answering complex queries about market trends, YoY growth, and competitor baselines.
 
+## ✅ Project Deliverables & Status
+
+### Mandatory Deliverables
+- [x] **Build Log with AI session links** ([ChatGPT Conversation Link](https://chatgpt.com/share/69f344ab-33fc-83e8-b32d-d9ccfd922591))
+- [x] **Architecture & Design Document** ([ARCHITECTURE.md](ARCHITECTURE.md))
+- [x] **Hosted Working Prototype** ([Live Demo Link](https://businesslens-production.up.railway.app/))
+- [x] **GitHub/Workflow Assets** (Clean code, README, and logs)
+- [x] **Executive Presentation Deck** (Available in `report/` directory)
+
+### Prototype Expectations
+- [x] **Multi-agent architecture** (Orchestrated via LangChain)
+- [x] **Conversational AI assistant** (Streamlit chat interface)
+- [x] **Data modeling from messy datasets** (DuckDB star schema)
+- [x] **KPI generation** (Revenue, YoY, Market Share)
+- [x] **Query answering capability** (Deterministic SQL execution)
+- [x] **Deployed accessible application** (Containerized on Railway)
+
+---
+
 ## 📊 The Data Context
 The raw materials for this project consisted of two legacy datasets:
 1. `weekly_internal_sales_messy.csv`
@@ -59,7 +78,7 @@ The application uses a **Multi-Agent Architecture** with a hybrid routing approa
 
 ## 🛠️ Build Log & AI Usage (Deliverable 1)
 This project utilized iterative building and AI-assisted workflows to accelerate development, debugging, and styling.
-- **AI Chat Link(s):** *(Add the chat link you took help from here)*
+- **AI Chat Link(s):** [ChatGPT Conversation Link](https://chatgpt.com/share/69f344ab-33fc-83e8-b32d-d9ccfd922591) (Project assistance and development logs)
 
 ## 📈 Executive Readout & Roadmap (Deliverable 4)
 - **Accuracy & Traceability:** By generating SQL instead of text, users can trace the exact query the AI ran against the database. SQL syntax is validated before execution.
